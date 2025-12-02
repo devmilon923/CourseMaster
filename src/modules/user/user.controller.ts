@@ -24,7 +24,7 @@ import {
   generateToken,
   verifyToken,
 } from "../../utils/JwtToken";
-import { sendPushNotification } from "../notifications/pushNotification/pushNotification.controller";
+
 import { IUserPayload } from "../../middlewares/roleGuard";
 import { validateUserLockStatus } from "../../middlewares/lock";
 import { IUser } from "./user.interface";

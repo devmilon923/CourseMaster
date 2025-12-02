@@ -6,7 +6,7 @@ import catchAsync from "../../utils/catchAsync";
 import sendError from "../../utils/sendError";
 import sendResponse from "../../utils/sendResponse";
 import ApiError from "../../errors/ApiError";
-import { sendPushNotificationToMultiple } from "./pushNotification/pushNotification.controller";
+
 import paginationBuilder from "../../utils/paginationBuilder";
 import { IUserPayload } from "../../middlewares/roleGuard";
 
@@ -132,40 +132,40 @@ export const getUnreadBadgeCount = catchAsync(
   }
 );
 
-export const adminSendPushNotification = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { fcmTokens, title, body } = req.body;
-    if (!fcmTokens || !title || !body) {
-      return res.status(400).json({
-        message: "Missing required fields: fcmTokens, title, and body.",
-      });
-    }
+// export const adminSendPushNotification = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const { fcmTokens, title, body } = req.body;
+//     if (!fcmTokens || !title || !body) {
+//       return res.status(400).json({
+//         message: "Missing required fields: fcmTokens, title, and body.",
+//       });
+//     }
 
-    // Ensure fcmTokens is an array of strings
-    let tokens: string[] = [];
-    if (typeof fcmTokens === "string") {
-      tokens = [fcmTokens];
-    } else if (Array.isArray(fcmTokens)) {
-      tokens = fcmTokens;
-    } else {
-      return res.status(400).json({
-        message: "fcmTokens must be a string or an array of strings.",
-      });
-    }
+//     // Ensure fcmTokens is an array of strings
+//     let tokens: string[] = [];
+//     if (typeof fcmTokens === "string") {
+//       tokens = [fcmTokens];
+//     } else if (Array.isArray(fcmTokens)) {
+//       tokens = fcmTokens;
+//     } else {
+//       return res.status(400).json({
+//         message: "fcmTokens must be a string or an array of strings.",
+//       });
+//     }
 
-    // Use the multicast helper to send notifications to all provided tokens
-    const response = await sendPushNotificationToMultiple(tokens, {
-      title,
-      body,
-    });
-    return res
-      .status(200)
-      .json({ message: "Push notifications sent successfully.", response });
-  } catch (error) {
-    next(error);
-  }
-};
+//     // Use the multicast helper to send notifications to all provided tokens
+//     const response = await sendPushNotificationToMultiple(tokens, {
+//       title,
+//       body,
+//     });
+//     return res
+//       .status(200)
+//       .json({ message: "Push notifications sent successfully.", response });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
