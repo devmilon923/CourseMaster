@@ -11,6 +11,7 @@ export type ICourse = {
     | "Marketing & Sales"
     | "Communication Skills";
   status: "private" | "public";
+  enrolledBy: Types.ObjectId[];
   image: string;
 } & Document;
 
@@ -19,6 +20,7 @@ export type IModule = {
   name: string;
   totalVideoCount: number;
   orderBy: number;
+  completedBy: Types.ObjectId[];
   description: string;
   status: "private" | "public";
 } & Document;

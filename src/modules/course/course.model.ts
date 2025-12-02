@@ -38,6 +38,12 @@ const courseSchema = new Schema<ICourse>(
         "Communication Skills",
       ],
     },
+    enrolledBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     status: {
       type: String,
       enum: ["private", "public"],
@@ -79,6 +85,12 @@ const moduleSchema = new Schema<IModule>(
       type: Number,
       required: true,
     },
+    //   completedBy: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "User",
+    //   },
+    // ],
     description: {
       type: String,
       required: true,
@@ -247,7 +259,7 @@ const assignmentSchema = new Schema<IAssignment>(
     status: {
       type: String,
       enum: ["pending", "accepted", "rejected"],
-      default: "pending",
+      default: "accepted",
     },
   },
   { timestamps: true }
