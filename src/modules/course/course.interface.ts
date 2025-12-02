@@ -5,7 +5,11 @@ export type ICourse = {
   price: number;
   instructor: string;
   description: string;
-  category: string;
+  category:
+    | "Web Development"
+    | "Graphic Design & Illustration"
+    | "Marketing & Sales"
+    | "Communication Skills";
   status: "private" | "public";
   image: string;
 } & Document;
@@ -35,7 +39,7 @@ export type IQuiz = {
   optionB: string;
   optionC: string;
   optionD: string;
-  answer: string;
+  answer: "A" | "B" | "C" | "D";
   mark: number;
   completedBy: Types.ObjectId[];
 } & Document;

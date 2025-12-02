@@ -31,6 +31,12 @@ const courseSchema = new Schema<ICourse>(
     category: {
       type: String,
       required: true,
+      enum: [
+        "Web Development",
+        "Graphic Design & Illustration",
+        "Marketing & Sales",
+        "Communication Skills",
+      ],
     },
     status: {
       type: String,
@@ -67,6 +73,7 @@ const moduleSchema = new Schema<IModule>(
     totalVideoCount: {
       type: Number,
       required: true,
+      default: 0,
     },
     orderBy: {
       type: Number,
@@ -112,6 +119,7 @@ const videoSchema = new Schema<IVideo>(
       {
         type: Schema.Types.ObjectId,
         ref: "User",
+        required: false,
       },
     ],
     description: {
@@ -163,6 +171,7 @@ const quizSchema = new Schema<IQuiz>(
     answer: {
       type: String,
       required: true,
+      enum: ["A", "B", "C", "D"],
     },
     mark: {
       type: Number,
