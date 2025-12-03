@@ -26,9 +26,7 @@ import {
 } from "../../utils/JwtToken";
 
 import { IUserPayload } from "../../middlewares/roleGuard";
-import { validateUserLockStatus } from "../../middlewares/lock";
 import { IUser } from "./user.interface";
-
 const registerUser = catchAsync(async (req: Request, res: Response) => {
   const { name, email, password, phone, role } = req.body;
   (async () => {
