@@ -16,7 +16,6 @@ app.use(
       "http://localhost:3000",
       "https://course-master-frontend-eosin.vercel.app",
     ],
-    credentials: true,
   })
 );
 app.use(express.static("public"));
