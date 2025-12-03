@@ -156,7 +156,9 @@ const courseDetails = catchAsync(async (req: Request, res: Response) => {
   let query: any = {
     _id: new mongoose.Types.ObjectId(courseId || "n/a"),
   };
-
+  let moduleQuery: any = {
+    course: new mongoose.Types.ObjectId(courseId || "n/a"),
+  };
   if (user?.role === "admin") {
     query.$or = [
       {
@@ -166,16 +168,31 @@ const courseDetails = catchAsync(async (req: Request, res: Response) => {
         status: "private",
       },
     ];
+    moduleQuery.$or = [
+      {
+        status: "public",
+      },
+      {
+        status: "private",
+      },
+    ];
   } else {
     query.status = "public";
+    moduleQuery.status = "public";
   }
   const result = await Course.findOne(query).lean();
-
+  const totalModule = await Module.countDocuments(moduleQuery);
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Course details get succesfully",
-    data: result ? { ...result, totalEnroll: 0, totalModule: 0 } : {},
+    data: result
+      ? {
+          ...result,
+          totalEnroll: result?.enrolledBy?.length,
+          totalModule: totalModule,
+        }
+      : {},
   });
 });
 
@@ -617,7 +634,9 @@ const quizSubmit = catchAsync(async (req: Request, res: Response) => {
   let earnedMarks = 0;
 
   // Map quiz IDs to quiz objects for easy lookup
-  const quizMap = new Map(quizs.map((quiz:any) => [quiz._id.toString(), quiz]));
+  const quizMap = new Map(
+    quizs.map((quiz: any) => [quiz._id.toString(), quiz])
+  );
 
   // Process each user answer and save to QuizResult
   const quizResults = await Promise.all(
