@@ -206,6 +206,7 @@ const getCourses = catchAsync(async (req: Request, res: Response) => {
   const category = req.query?.category as string;
   let sort: any = { createdAt: -1 };
   let query: any = {};
+  let moduleQuery: any = {};
   if (user?.role === "admin") {
     query.$or = [
       {
@@ -215,8 +216,17 @@ const getCourses = catchAsync(async (req: Request, res: Response) => {
         status: "private",
       },
     ];
+    moduleQuery.$or = [
+      {
+        status: "public",
+      },
+      {
+        status: "private",
+      },
+    ];
   } else {
     query.status = "public";
+    moduleQuery.status = "public";
   }
   if (searchQ?.trim()) {
     query.$or = [
@@ -244,11 +254,29 @@ const getCourses = catchAsync(async (req: Request, res: Response) => {
 
   const totalData = await Course.countDocuments(query);
   const pagination = paginationBuilder({ totalData, currentPage: page, limit });
+  const response = await Promise.all(
+    result.map(async (course: any) => {
+      moduleQuery.course = new mongoose.Types.ObjectId(course?._id || "n/a");
+      const totalModule = await Module.countDocuments(moduleQuery);
+      return {
+        _id: course?._id,
+        instructor: course?.instructor,
+        category: course?.category,
+        description: course?.description,
+        name: course?.name,
+        price: course?.price,
+        image: course?.image,
+        createdAt: course?.createdAt,
+        totalEnroll: course?.enrolledBy?.length || 0,
+        totalModule: totalModule,
+      };
+    })
+  );
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "All Course get succesfully",
-    data: result,
+    data: response,
     pagination,
   });
 });
