@@ -66,7 +66,7 @@ const registerUser = catchAsync(async (req: Request, res: Response) => {
     } catch (backgroundError: any) {
       console.error("Error in background tasks:", backgroundError?.message);
       return sendResponse(res, {
-        statusCode: backgroundError?.statusCode,
+        statusCode: httpStatus.BAD_REQUEST,
         success: false,
         data: backgroundError?.message,
       });
