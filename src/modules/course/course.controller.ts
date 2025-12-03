@@ -181,7 +181,8 @@ const courseDetails = catchAsync(async (req: Request, res: Response) => {
     moduleQuery.status = "public";
   }
   const result = await Course.findOne(query).lean();
-  const totalModule = await Module.countDocuments(moduleQuery);
+  const totalModule = await Module.find(moduleQuery);
+  const syllabus = totalModule.map((mod: any) => mod.name);
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -190,7 +191,8 @@ const courseDetails = catchAsync(async (req: Request, res: Response) => {
       ? {
           ...result,
           totalEnroll: result?.enrolledBy?.length,
-          totalModule: totalModule,
+          totalModule: totalModule?.length,
+          syllabus,
         }
       : {},
   });
