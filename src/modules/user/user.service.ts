@@ -42,13 +42,12 @@ const createUser = async ({
   image,
   phone,
   hashedPassword,
-
   role,
 }: {
   name: string;
   email: string;
   hashedPassword: string | null;
-  phone: number;
+  phone: string;
   image: any;
   role: TRole;
 }): Promise<{ createdUser: IUser }> => {

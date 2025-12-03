@@ -7,7 +7,7 @@ export type IUser = {
   password: string;
   gender?: "male" | "female" | "other";
   address?: string;
-  phone?: number;
+  phone?: string;
   image: string;
   isVerified: boolean;
   blockStatus: Date | null;
