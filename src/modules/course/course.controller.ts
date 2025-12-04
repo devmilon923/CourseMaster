@@ -738,12 +738,12 @@ const isEnrolled = catchAsync(async (req: Request, res: Response) => {
   const user = req.user as IUserPayload;
   const courseId = req.params.courseId;
   let query: any = {
-    _id: new mongoose.Types.ObjectId(courseId || "n/a"),
+    course: new mongoose.Types.ObjectId(courseId || "n/a"),
     user: new mongoose.Types.ObjectId(user.id || "n/a"),
-    status: "public",
+    status: "accepted",
   };
 
-  const result = await Course.countDocuments(query).lean();
+  const result = await EnrollRequest.countDocuments(query).lean();
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
