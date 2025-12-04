@@ -17,6 +17,7 @@ import { isValidYouTubeUrl } from "../../utils/youtubeURL";
 import { IUserPayload } from "../../middlewares/roleGuard";
 import paginationBuilder from "../../utils/paginationBuilder";
 import { IEnrollRequest } from "./course.interface";
+import { UserModel } from "../user/user.model";
 
 const createCourse = catchAsync(async (req: Request, res: Response) => {
   if (!req.file?.filename) {
@@ -771,7 +772,7 @@ const isSubmittedAssignment = catchAsync(
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Module submit check",
+      message: "Assignment submit check",
       data: {
         isSubmitted: result ? true : false,
         status: result?.status || null,
@@ -780,6 +781,25 @@ const isSubmittedAssignment = catchAsync(
     });
   }
 );
+
+const getLandingPageStacks = catchAsync(async (req: Request, res: Response) => {
+  const totalCourse: any = await Course.countDocuments({
+    status: "public",
+  });
+  const totalStudents: any = await UserModel.countDocuments({
+    isVerified: true,
+    role: "user",
+  });
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Public stacks in landing page",
+    data: {
+      totalCourse,
+      totalStudents,
+    },
+  });
+});
 export const CourseController = {
   createCourse,
   addModule,
@@ -800,4 +820,5 @@ export const CourseController = {
   quizSubmit,
   isEnrolled,
   isSubmittedAssignment,
+  getLandingPageStacks,
 };

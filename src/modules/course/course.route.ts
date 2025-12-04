@@ -95,6 +95,7 @@ router.get(
   guardRole("admin"),
   CourseController.getAssignmentSubmisson
 );
+
 router.get(
   "/quiz/:moduleId",
   guardRole(["user", "admin"]),
@@ -106,4 +107,5 @@ router.post(
   guardRole(["user", "admin"]),
   CourseController.quizSubmit
 );
+router.get("/stacks", CourseController.getLandingPageStacks);
 export const CourseRouter = router;
