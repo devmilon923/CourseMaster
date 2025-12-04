@@ -16,6 +16,7 @@ app.use(
       "http://localhost:3000",
       "https://course-master-frontend-eosin.vercel.app",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })
 );
 app.use(express.static("public"));
