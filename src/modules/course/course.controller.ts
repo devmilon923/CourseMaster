@@ -343,7 +343,7 @@ const getEnrollRequest = catchAsync(async (req: Request, res: Response) => {
     .limit(limit)
     .lean()
     .populate("user", "name image")
-    .populate("course", "name image");
+    .populate("course", "name image instructor");
   const totalData = await EnrollRequest.countDocuments(query);
   const pagination = paginationBuilder({ totalData, currentPage: page, limit });
   const response = result.map((request: any) => {
@@ -356,6 +356,7 @@ const getEnrollRequest = catchAsync(async (req: Request, res: Response) => {
       userImage: request.user.image,
       status: request.status,
       note: request.additionalNote || "",
+      instructor: request?.course?.instructor,
     };
   });
   return sendResponse(res, {
