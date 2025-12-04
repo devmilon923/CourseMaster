@@ -43,10 +43,14 @@ router.get(
 );
 router.get(
   "/isenrolled/:courseId",
-  guardRole('user'),
+  guardRole("user"),
   CourseController.isEnrolled
 );
-
+router.get(
+  "/isassignmented/:moduleId",
+  guardRole("user"),
+  CourseController.isSubmittedAssignment
+);
 router.get("/", guardRole(["admin", "user"]), CourseController.getCourses);
 router.get("/guest", CourseController.getCourses);
 router.post(

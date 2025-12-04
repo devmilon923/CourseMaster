@@ -751,6 +751,32 @@ const isEnrolled = catchAsync(async (req: Request, res: Response) => {
     data: result !== 0 ? true : false,
   });
 });
+const isSubmittedAssignment = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = req.user as IUserPayload;
+    const moduleId = req.params.moduleId;
+    let query: any = {
+      module: new mongoose.Types.ObjectId(moduleId || "n/a"),
+      user: new mongoose.Types.ObjectId(user.id || "n/a"),
+      status: "accepted",
+      link: { $ne: null },
+    };
+
+    const result: any = await Assignment.findOne(query)
+      .select("status createdAt")
+      .lean();
+    return sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Module submit check",
+      data: {
+        isSubmitted: result ? true : false,
+        status: result?.status || null,
+        submittedAt: result?.createdAt || null,
+      },
+    });
+  }
+);
 export const CourseController = {
   createCourse,
   addModule,
@@ -770,4 +796,5 @@ export const CourseController = {
   getAssignmentSubmisson,
   quizSubmit,
   isEnrolled,
+  isSubmittedAssignment,
 };
