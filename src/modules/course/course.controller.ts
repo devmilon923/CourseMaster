@@ -740,7 +740,6 @@ const isEnrolled = catchAsync(async (req: Request, res: Response) => {
   let query: any = {
     course: new mongoose.Types.ObjectId(courseId || "n/a"),
     user: new mongoose.Types.ObjectId(user.id || "n/a"),
-    status: "accepted",
   };
 
   const result: any = await EnrollRequest.findOne(query).lean();
@@ -749,7 +748,7 @@ const isEnrolled = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: "Course entroll check",
     data: {
-      requested: result !== 0 ? true : false,
+      requested: result ? true : false,
       status: result?.status || null,
       time: result?.createdAt || null,
     },
