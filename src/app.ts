@@ -17,6 +17,7 @@ app.use(
       "https://course-master-frontend-eosin.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.static("public"));
