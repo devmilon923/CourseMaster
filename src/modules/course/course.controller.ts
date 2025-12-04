@@ -743,12 +743,16 @@ const isEnrolled = catchAsync(async (req: Request, res: Response) => {
     status: "accepted",
   };
 
-  const result = await EnrollRequest.countDocuments(query).lean();
+  const result: any = await EnrollRequest.findOne(query).lean();
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Course entroll check",
-    data: result !== 0 ? true : false,
+    data: {
+      requested: result !== 0 ? true : false,
+      status: result?.status || null,
+      time: result?.createdAt || null,
+    },
   });
 });
 const isSubmittedAssignment = catchAsync(
