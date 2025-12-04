@@ -758,7 +758,6 @@ const isSubmittedAssignment = catchAsync(
     let query: any = {
       module: new mongoose.Types.ObjectId(moduleId || "n/a"),
       user: new mongoose.Types.ObjectId(user.id || "n/a"),
-      status: "accepted",
       link: { $ne: null },
     };
 
