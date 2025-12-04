@@ -41,6 +41,11 @@ router.get(
   guardRole(["admin", "user"]),
   CourseController.courseDetails
 );
+router.get(
+  "/isenrolled/:courseId",
+  guardRole('user'),
+  CourseController.isEnrolled
+);
 
 router.get("/", guardRole(["admin", "user"]), CourseController.getCourses);
 router.get("/guest", CourseController.getCourses);

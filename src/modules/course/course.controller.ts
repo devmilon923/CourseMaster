@@ -733,6 +733,24 @@ const quizSubmit = catchAsync(async (req: Request, res: Response) => {
     },
   });
 });
+
+const isEnrolled = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user as IUserPayload;
+  const courseId = req.params.courseId;
+  let query: any = {
+    _id: new mongoose.Types.ObjectId(courseId || "n/a"),
+    user: new mongoose.Types.ObjectId(user.id || "n/a"),
+    status: "public",
+  };
+
+  const result = await Course.countDocuments(query).lean();
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course entroll check",
+    data: result !== 0 ? true : false,
+  });
+});
 export const CourseController = {
   createCourse,
   addModule,
@@ -751,4 +769,5 @@ export const CourseController = {
   submitAssignment,
   getAssignmentSubmisson,
   quizSubmit,
+  isEnrolled,
 };
