@@ -363,12 +363,12 @@ const getEnrollRequest = catchAsync(async (req: Request, res: Response) => {
     return {
       _id: request?._id,
       courseId: request?.course?._id,
-      courseName: request.course.name,
-      courseImage: request.course.image || "",
-      user: request.user.name,
-      userImage: request.user.image,
-      status: request.status,
-      note: request.additionalNote || "",
+      courseName: request?.course?.name,
+      courseImage: request?.course?.image || "",
+      user: request?.user?.name,
+      userImage: request?.user?.image,
+      status: request?.status,
+      note: request?.additionalNote || "",
       instructor: request?.course?.instructor,
     };
   });
@@ -869,7 +869,6 @@ const getModuleDetails = catchAsync(async (req: Request, res: Response) => {
 });
 const editModuleDetails = catchAsync(async (req: Request, res: Response) => {
   const moduleId = req.params.moduleId;
-  console.log(req.body);
   const result = await Module.findOneAndUpdate(
     {
       _id: new mongoose.Types.ObjectId(moduleId || "n/a"),
