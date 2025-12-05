@@ -118,10 +118,21 @@ router.post(
   guardRole(["user", "admin"]),
   CourseController.quizSubmit
 );
+router.get(
+  "/module-details/:moduleId",
+  guardRole("admin"),
+  CourseController.getModuleDetails
+);
+router.get(
+  "/video-details/:videoId",
+  guardRole("admin"),
+  CourseController.getVideoDetails
+);
 router.get("/stacks", CourseController.getLandingPageStacks);
 router.delete(
   "/delete/:courseId",
   guardRole("admin"),
   CourseController.deleteCourse
 );
+
 export const CourseRouter = router;

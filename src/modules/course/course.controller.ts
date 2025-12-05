@@ -853,6 +853,33 @@ const getModules = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getModuleDetails = catchAsync(async (req: Request, res: Response) => {
+  const moduleId = req.params.moduleId;
+
+  const result = await Module.findOne({
+    _id: new mongoose.Types.ObjectId(moduleId || "n/a"),
+  });
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course module details get succesfully",
+    data: result,
+  });
+});
+const getVideoDetails = catchAsync(async (req: Request, res: Response) => {
+  const videoId = req.params.videoId;
+  const result = await Video.findOne({
+    _id: new mongoose.Types.ObjectId(videoId || "n/a"),
+  });
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course module video details get succesfully",
+    data: result,
+  });
+});
 export const CourseController = {
   createCourse,
   addModule,
@@ -877,4 +904,6 @@ export const CourseController = {
   deleteCourse,
   getModules,
   getVideos,
+  getModuleDetails,
+  getVideoDetails,
 };
