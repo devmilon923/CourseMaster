@@ -91,16 +91,26 @@ const addVideo = catchAsync(async (req: Request, res: Response) => {
     videoLink: req.body.videoLink,
     orderBy: req.body.orderBy,
   };
-  const result = await Video.findOneAndUpdate(data, data, {
-    new: true,
-    runValidators: true,
-    upsert: true,
-  });
+  let response = null;
+  const checkVideo = await Video.findOne(data);
+  if (!checkVideo) {
+    response = await Video.create(data);
+    await Module.findOneAndUpdate(
+      {
+        _id: new mongoose.Types.ObjectId(moduleId || "n/a"),
+      },
+      {
+        $inc: { totalVideoCount: 1 }, // Fixed: $inc should be at the top level
+      }
+    );
+  } else {
+    response = checkVideo; // Fixed: move this inside the else block
+  }
   return sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Video added succesfully",
-    data: result,
+    data: response,
   });
 });
 const addQuiz = catchAsync(async (req: Request, res: Response) => {
