@@ -272,6 +272,7 @@ const getCourses = catchAsync(async (req: Request, res: Response) => {
         createdAt: course?.createdAt,
         totalEnroll: course?.enrolledBy?.length || 0,
         totalModule: totalModule,
+        status: course?.status,
       };
     })
   );
