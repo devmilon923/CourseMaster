@@ -905,7 +905,7 @@ const getVideoDetails = catchAsync(async (req: Request, res: Response) => {
 });
 const editVideoDetails = catchAsync(async (req: Request, res: Response) => {
   const videoId = req.params.videoId;
-  const result = await Video.findOne(
+  const result = await Video.findOneAndUpdate(
     {
       _id: new mongoose.Types.ObjectId(videoId || "n/a"),
     },
