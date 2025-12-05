@@ -123,10 +123,20 @@ router.get(
   guardRole("admin"),
   CourseController.getModuleDetails
 );
+router.patch(
+  "/module-details/:moduleId",
+  guardRole("admin"),
+  CourseController.editModuleDetails
+);
 router.get(
   "/video-details/:videoId",
   guardRole("admin"),
   CourseController.getVideoDetails
+);
+router.patch(
+  "/video-details/:videoId",
+  guardRole("admin"),
+  CourseController.editVideoDetails
 );
 router.get("/stacks", CourseController.getLandingPageStacks);
 router.delete(

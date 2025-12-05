@@ -867,6 +867,29 @@ const getModuleDetails = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const editModuleDetails = catchAsync(async (req: Request, res: Response) => {
+  const moduleId = req.params.moduleId;
+  console.log(req.body);
+  const result = await Module.findOneAndUpdate(
+    {
+      _id: new mongoose.Types.ObjectId(moduleId || "n/a"),
+    },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  if (!result) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Invalid module");
+  }
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course module details updated succesfully",
+    data: result,
+  });
+});
 const getVideoDetails = catchAsync(async (req: Request, res: Response) => {
   const videoId = req.params.videoId;
   const result = await Video.findOne({
@@ -877,6 +900,25 @@ const getVideoDetails = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "Course module video details get succesfully",
+    data: result,
+  });
+});
+const editVideoDetails = catchAsync(async (req: Request, res: Response) => {
+  const videoId = req.params.videoId;
+  const result = await Video.findOne(
+    {
+      _id: new mongoose.Types.ObjectId(videoId || "n/a"),
+    },
+    req.body,
+    { new: true, runValidators: true }
+  );
+  if (!result) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Invalid video");
+  }
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course module video details updated succesfully",
     data: result,
   });
 });
@@ -906,4 +948,6 @@ export const CourseController = {
   getVideos,
   getModuleDetails,
   getVideoDetails,
+  editModuleDetails,
+  editVideoDetails,
 };
