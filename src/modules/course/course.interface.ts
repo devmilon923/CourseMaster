@@ -13,6 +13,7 @@ export type ICourse = {
   status: "private" | "public";
   enrolledBy: Types.ObjectId[];
   image: string;
+  isDeleted: boolean;
 } & Document;
 
 export type IModule = {

@@ -29,7 +29,7 @@ const createCourse = catchAsync(async (req: Request, res: Response) => {
     instructor: req.body.instructor as string,
     description: req.body.description as string,
     category: req.body.category,
-    image: `/images${req.file.filename}`,
+    image: `/images/${req.file.filename}`,
   };
   const result = await Course.findOneAndUpdate(data, data, {
     new: true,
@@ -135,7 +135,6 @@ const addQuiz = catchAsync(async (req: Request, res: Response) => {
 });
 const updateCourse = catchAsync(async (req: Request, res: Response) => {
   const courseId = req.params.courseId;
-
   if (req?.file?.filename) {
     req.body.image = `/images/${req.file.filename}`;
   }
@@ -801,6 +800,19 @@ const getLandingPageStacks = catchAsync(async (req: Request, res: Response) => {
     },
   });
 });
+
+const deleteCourse = catchAsync(async (req: Request, res: Response) => {
+  const courseId = req.params.courseId;
+  await Course.findByIdAndUpdate(courseId, {
+    isDeleted: true,
+  });
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course deleted",
+    data: courseId,
+  });
+});
 export const CourseController = {
   createCourse,
   addModule,
@@ -822,4 +834,5 @@ export const CourseController = {
   isEnrolled,
   isSubmittedAssignment,
   getLandingPageStacks,
+  deleteCourse,
 };

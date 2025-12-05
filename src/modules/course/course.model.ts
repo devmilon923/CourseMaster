@@ -53,6 +53,11 @@ const courseSchema = new Schema<ICourse>(
       type: String,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   { timestamps: true }
 );
@@ -85,12 +90,6 @@ const moduleSchema = new Schema<IModule>(
       type: Number,
       required: true,
     },
-    //   completedBy: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "User",
-    //   },
-    // ],
     description: {
       type: String,
       required: true,

@@ -108,4 +108,9 @@ router.post(
   CourseController.quizSubmit
 );
 router.get("/stacks", CourseController.getLandingPageStacks);
+router.delete(
+  "/delete/:courseId",
+  guardRole("admin"),
+  CourseController.deleteCourse
+);
 export const CourseRouter = router;
