@@ -207,7 +207,9 @@ const getCourses = catchAsync(async (req: Request, res: Response) => {
   const priceSort = req.query?.sort as string;
   const category = req.query?.category as string;
   let sort: any = { createdAt: -1 };
-  let query: any = {};
+  let query: any = {
+    isDeleted: false,
+  };
   let moduleQuery: any = {};
   if (user?.role === "admin") {
     query.$or = [
