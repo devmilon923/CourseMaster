@@ -815,6 +815,34 @@ const deleteCourse = catchAsync(async (req: Request, res: Response) => {
     data: courseId,
   });
 });
+
+const getVideos = catchAsync(async (req: Request, res: Response) => {
+  const courseId = req.params.courseId;
+  const result = await Video.find({
+    module: new mongoose.Types.ObjectId(courseId || "n/a"),
+  });
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course videos get succesfully",
+    data: result,
+  });
+});
+
+const getModules = catchAsync(async (req: Request, res: Response) => {
+  const courseId = req.params.courseId;
+  const result = await Module.find({
+    course: new mongoose.Types.ObjectId(courseId || "n/a"),
+  });
+
+  return sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Course modules get succesfully",
+    data: result,
+  });
+});
 export const CourseController = {
   createCourse,
   addModule,
@@ -837,4 +865,6 @@ export const CourseController = {
   isSubmittedAssignment,
   getLandingPageStacks,
   deleteCourse,
+  getModules,
+  getVideos,
 };

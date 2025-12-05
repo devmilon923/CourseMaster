@@ -75,6 +75,17 @@ router.get(
   guardRole("user"),
   CourseController.getMyModules
 );
+
+router.get(
+  "/admin/module/:courseId",
+  guardRole("admin"),
+  CourseController.getModules
+);
+router.get(
+  "/admin/videos/:courseId",
+  guardRole("admin"),
+  CourseController.getVideos
+);
 router.get(
   "/user/videos/:moduleId",
   guardRole("user"),
