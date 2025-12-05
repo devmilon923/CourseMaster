@@ -830,7 +830,7 @@ const getVideos = catchAsync(async (req: Request, res: Response) => {
   const courseId = req.params.courseId;
   const result = await Video.find({
     module: new mongoose.Types.ObjectId(courseId || "n/a"),
-  });
+  }).sort({ orderBy: 1 });
 
   return sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -844,7 +844,7 @@ const getModules = catchAsync(async (req: Request, res: Response) => {
   const courseId = req.params.courseId;
   const result = await Module.find({
     course: new mongoose.Types.ObjectId(courseId || "n/a"),
-  });
+  }).sort({ orderBy: 1 });
 
   return sendResponse(res, {
     statusCode: httpStatus.OK,
